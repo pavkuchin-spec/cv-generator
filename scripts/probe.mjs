@@ -9,6 +9,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import yaml from "js-yaml";
+import { classifyTitle } from "./lib/radar.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -47,44 +48,6 @@ function jobsFrom(source, body) {
     const url = j.absolute_url || j.jobUrl || j.applyUrl || "";
     return { title, location, url };
   });
-}
-
-// Pitfalls from prefs comments — veto before core/stretch substring matches.
-function classify(title) {
-  const t = title.toLowerCase();
-
-  if (/\bgovernment\b/.test(t)) return { band: "pitfall", why: "government ≠ governance" };
-  if (/unity catalog/.test(t)) return { band: "pitfall", why: "Unity Catalog SWE" };
-  if (/engagement manager/.test(t)) return { band: "pitfall", why: "PS engagement manager" };
-  if (/people governance/.test(t)) return { band: "pitfall", why: "People/HR governance" };
-  if (/\bprivacy\b/.test(t) && /governance/.test(t)) return { band: "pitfall", why: "privacy-attorney track" };
-  if (/information security|is controls|\bciso\b/.test(t)) return { band: "pitfall", why: "IS-controls / CISO GRC" };
-  if (/\benablement\b/.test(t) && !/\b(analytics|data)\b/.test(t)) {
-    return { band: "pitfall", why: "enablement without data/analytics" };
-  }
-  if (/\bproduct manager\b/.test(t) && /governance/.test(t)) {
-    return { band: "pitfall", why: "PM of a governance product" };
-  }
-  if (/product marketing/.test(t) && /governance/.test(t)) {
-    return { band: "pitfall", why: "GTM / product marketing" };
-  }
-
-  if (/data governance/.test(t)) return { band: "core" };
-  if (/\bmetadata lead\b/.test(t)) return { band: "core" };
-  if (/data catalog/.test(t)) return { band: "core" };
-  if (/data discovery/.test(t)) return { band: "core" };
-  if (/\blineage\b/.test(t)) return { band: "core" };
-  if (/data quality lead/.test(t)) return { band: "core" };
-  if (/data stewardship/.test(t)) return { band: "core" };
-  if (/data ownership/.test(t)) return { band: "core" };
-
-  if (/data platform lead/.test(t)) return { band: "stretch" };
-  if (/analytics enablement/.test(t)) return { band: "stretch" };
-  if (/ai enablement/.test(t) && /\b(data|analytics)\b/.test(t)) return { band: "stretch" };
-  if (/ai governance/.test(t)) return { band: "stretch" };
-  if (/data quality/.test(t) && /practitioner|catalog/.test(t)) return { band: "stretch" };
-
-  return null;
 }
 
 async function probe(source, token) {
@@ -132,7 +95,7 @@ const hits = [];
 for (const r of results) {
   if (r.status !== 200) continue;
   for (const job of r.jobs) {
-    const cls = classify(job.title);
+    const cls = classifyTitle(job.title);
     if (!cls) continue;
     hits.push({ ...cls, source: r.source, token: r.token, ...job });
   }

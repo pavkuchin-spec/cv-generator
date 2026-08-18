@@ -86,6 +86,8 @@ penalty_terms:
 # - "government" → US public-sector support, not governance
 # - "catalog" in Unity Catalog SWE titles
 # - "Engagement Manager" → professional-services delivery, not DG lead
+# - "practitioner" without data/quality/catalog → org-dev / L&D (not the Collibra DQ stretch)
+# - "organisational development" → L&D, not governance
 
 # Tokens that returned 200 on 2026-08-18. Prefer these next hour.
 watchlist_greenhouse:
