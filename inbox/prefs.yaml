@@ -109,11 +109,30 @@ watchlist_greenhouse:
   - stripe
   - databricks
   - anthropic
+  # analytics-org employers (in-house data/analytics teams), added 2026-08-19.
+  # EU remote or EET-friendly. Each token returned HTTP 200 before keep.
+  # Not catalog/platform vendors — those stay in the block above.
+  - canonical          # EMEA remote; 2026-08-19 core title hit (engineer-shaped)
+  - typeform           # EU remote (ES/NL/PT/DE/IE/UK)
+  - gocardless         # Lisbon / Riga (EET) / London
+  - gropyus            # Berlin / Vienna; Staff DG posting was live earlier in 2026
+  - hellofresh         # Berlin / Warsaw data org
+  - getyourguide       # Berlin
+  - monzo              # UK remote + Barcelona
+  - traderepublicbank  # Berlin; token `traderepublic` is a 1-job customer council
+  - sumup              # Barcelona / EU
+  - wolt               # Helsinki, EET
+  - flix               # Berlin (FlixBus / FlixMobility)
+  - doctolib           # Berlin / Paris / Munich
 
 watchlist_ashby:
   - atlan
   - montecarlodata
   - airbyte
+  # analytics-org employers, added 2026-08-19. HTTP 200.
+  - miro               # Amsterdam / Copenhagen
+  - linear             # Europe remote
+  - notion             # EU offices exist; board is US-heavy
 
 # Tried 2026-08-18, 404 or empty. Do not retry until a slug is confirmed.
 watchlist_dead:
