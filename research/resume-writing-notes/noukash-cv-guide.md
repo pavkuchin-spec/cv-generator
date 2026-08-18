@@ -78,3 +78,28 @@ A distinctive, specific story beats a generic template.
 find jobs, LinkedIn profile/outreach mechanics, US market realities for remote hires from
 Russia, interview scorecard tactics, salary negotiation script. These live in the source
 deck if needed later.*
+
+---
+
+## Adopted in this repo
+
+Where each piece of the above is now enforced. The repo's own `CLAUDE.md` still
+outranks all of it — where the guide's advice and the truthfulness rule disagree,
+truthfulness wins, which is why several items below are advisory warnings rather
+than gates.
+
+| Guide advice | Where it lives now | Enforcement |
+|---|---|---|
+| Position from the vacancy; one clear role (s3) | `headline:` + `expertise:` overrides in `onepager.yaml`; *Facts vs. positioning* in `CLAUDE.md` | Headline free within the honesty guard; expertise validated as a subset of `profile.yaml` (build fails on invented items) |
+| Resume job title should match the vacancy title (s7) | `headline:` override, resolved by `resolveHeadline()` in `build.mjs` | Agent choice, bounded by the honesty guard; build warns past ~42 chars |
+| 1:1 keyword match with the posting (s4) | `variants/<slug>/jd-keywords.yaml` → `reportKeywordCoverage()` | Advisory report only (`1p`/`apx`/miss + %) — a miss is often the honest answer |
+| Active completed-action verbs (s4) | `lintBullets()` → `weak-verb` | Advisory warning |
+| State the result, not the activity (s4, s5) | `lintBullets()` → `scale-only`, `no-result-no-scale` | Advisory warning; scale and result are checked separately, because step 3 ≠ step 5 |
+| Four lenses for finding a result (s6) | `## Result lenses` in every `data/evidence/*.md` | Pre-derived from each dossier's own body; "none recorded" where the dossier genuinely has nothing |
+| Cover letter: three paragraphs (s7) | `variants/<slug>/cover-letter.md` → `cover-letter.pdf` via `templates/cover-letter.html` | Build warns if it runs past one page |
+
+Deliberately not adopted: the "no experience at all → build a side project" and
+"switching tracks" special cases (s7) don't apply to Pavel's situation, and nothing
+in the guide overrides the sanitization rules — its advice to name scale and
+specifics still stops at rounded numbers, no colleague names, and no internal
+codenames.

@@ -17,6 +17,12 @@ The company's Analytics Division relied on a manually maintained Confluence page
 - The internal AI data assistant now answers roughly one in seven of its data questions by querying the catalog directly, rather than from static hardcoded definitions.
 - Retired the legacy manually maintained catalog on schedule; the metadata platform is now a shared capability used by both humans and AI tooling.
 
+## Result lenses
+- **Scale** — 50,000+ tables cataloged; 100+ registered users across 18 teams; adoption growing double digits month over month during rollout; a multi-workstream program of roughly one FTE.
+- **Help** — teams that had been losing an estimated 2-5 hours per week to manual data discovery; teams outside Analytics, who previously had limited or no catalog access, onboarded via role-based permissions and a self-service guide; engineers who can now ask "what breaks if I change this?" in-IDE before shipping; the internal AI data assistant and coding assistants, which query the platform directly via MCP instead of relying on hardcoded text.
+- **Problems** — no lineage, weak search, and no way to see who used a table or who to notify before changing it; slow incident resolution and unsafe deprecation of old tables. The legacy manually maintained catalog was retired on schedule, and the AI assistant now answers roughly one in seven data questions from the governed catalog rather than static hardcoded definitions.
+- **Leadership** — owned and drove the program end to end, coordinating data engineering and platform teams, and extended coverage to a new unified data platform initiative to establish end-to-end lineage for the company's core revenue-reporting domain.
+
 ## Technologies
 Python, metadata/lineage platform administration, BigQuery, dbt, MCP (AI tool integration), Kubernetes-based deployment operations.
 

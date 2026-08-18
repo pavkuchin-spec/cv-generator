@@ -14,6 +14,12 @@ Revenue reporting (MRR, sales attribution, sales compensation) depends on CRM (S
 - Produced a stakeholder-ready proposal covering a defined critical-field registry, adopted as the template for how Analytics negotiates data reliability with upstream business-system owners.
 - Established data integration as the first point of contact for schema/extraction/ingestion questions and Analytics as the owner of business-impact validation — clarifying a previously undefined boundary.
 
+## Result lenses
+- **Scale** — a defined critical-field registry covering the business-critical CRM fields that feed MRR, sales attribution, and sales compensation reporting; an evidence base of nine catalogued real incidents; an agreement spanning three teams.
+- **Help** — the data integration team and Analytics, whose boundary was previously undefined and is now explicit (data integration as first point of contact for schema, extraction, and ingestion questions; Analytics as owner of business-impact validation); the CRM-owning business team, which got a 1-2 page operational document rather than a heavy governance framework to sign up to.
+- **Problems** — unannounced upstream changes reaching production revenue reporting: a wrong payment identifier propagating into MRR and compensation reporting, thousands of records losing their linking ID and breaking a daily revenue report, a bulk update silently rewriting thousands of historical records. The agreement's prevention track (advance notice on planned changes) and incident-collaboration track (joint triage) address both halves.
+- **Leadership** — proposed and drove the agreement across three teams, built the incident evidence base that made the case, iterated the proposal down in weight against direct stakeholder pushback while keeping incident collaboration first-class, and defined a minimum-viable adoption path to avoid an all-or-nothing negotiation.
+
 ## Technologies
 Salesforce/CRM data model, BigQuery, stakeholder proposal writing, incident-pattern analysis.
 

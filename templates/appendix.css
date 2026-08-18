@@ -112,3 +112,15 @@ html, body {
 .content h1, .content h2, .content h3, .content ul, .content ol, .content table {
   break-inside: avoid;
 }
+
+/* Cover letter: same page furniture as the appendix, but prose-shaped —
+   three short paragraphs with breathing room, no portfolio headings. */
+.letter { font-size: 10.5pt; line-height: 1.6; }
+.letter p { margin: 0 0 4.5mm 0; }
+.letter p:last-child { margin-bottom: 0; }
+.letter h1, .letter h2, .letter h3 {
+  border-top: none;
+  padding-top: 0;
+  margin: 0 0 4mm 0;
+  font-size: 11pt;
+}
