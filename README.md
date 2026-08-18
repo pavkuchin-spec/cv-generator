@@ -69,7 +69,7 @@ archive/              Your original Canva-exported PDF, kept as the visual refer
 
 ## Keeping the evidence bank current
 
-Your `data/evidence/` dossiers were extracted once from your Obsidian work vault (`~/Documents/Work/PROJECTS/`), with names, ticket IDs, and internal codenames stripped out and numbers rounded — so nothing sensitive ends up in a document you hand to an external recruiter. Projects keep moving after that extraction, though. Run:
+Your `data/evidence/` dossiers were extracted once from a private notes vault (not part of this repo), with names, ticket IDs, and internal codenames stripped out and numbers rounded — so nothing sensitive ends up in a document you hand to an external recruiter. Projects keep moving after that extraction, though. Run:
 
 ```
 /refresh-evidence
