@@ -14,6 +14,12 @@ Data Governance was perceived internally as a policy/compliance function rather 
 - Two-year strategy approved by VP; shifted the team's external narrative from "governance enforcement" to "hands-on technical enablement" for a 50+ person analytics organization.
 - Introduced the team's first monthly leadership-facing metrics reporting.
 
+## Result lenses
+- **Scale** — a two-year strategy for the Analytics Division, approved at VP level; a 3-person team whose priorities span four workstreams; an external audience of a 50+ person analytics organization.
+- **Help** — leadership, who got the team's first monthly metrics reporting in place of qualitative claims of value; the team itself, which gained an explicit rule to promise a measurement and a delivery date rather than an unmeasured improvement.
+- **Problems** — the "we don't know what to ask Data Governance for" perception, diagnosed with hard evidence from the team's own intake queue (the large majority of "incoming requests" turned out to be self-generated work) and used as the deliberate opening of the repositioning story; and the credibility risk of over-promising to senior stakeholders.
+- **Leadership** — developed the two-year strategy and carried it through VP approval, manages day-to-day operations of the 3-person team across the metadata platform, ownership, AI knowledge management, and data-agreement workstreams, and repositioned the function's narrative from governance enforcement to hands-on technical enablement.
+
 ## Technologies
 Stakeholder communication and strategy writing, ticket/work data analysis, cross-functional program management.
 

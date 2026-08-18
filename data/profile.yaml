@@ -2,7 +2,15 @@
 # Only onepager.yaml / appendix.md content should be tailored per variant.
 
 name: "Pavel Kuchin"
+
+# The title currently held at Semrush. A fact — never varies by application.
 title: "Data Governance Team Lead"
+
+# The headline printed under the name on the CV. This is a *positioning* claim
+# (which role this application presents Pavel as), not a fact, so a variant may
+# override it in onepager.yaml to match the vacancy's own job title — subject to
+# the honesty guard in CLAUDE.md. Role titles inside Work Experience never move.
+headline_default: "Data Governance Team Lead"
 
 contact:
   phone: "+357 92 523 592"

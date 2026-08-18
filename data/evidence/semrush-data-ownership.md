@@ -16,6 +16,12 @@ The analytics data warehouse had grown under a legacy dual "Business Owner / Tec
 - Ownership enforcement built into CI/CD, code review, workflow scheduling, and alerting — not a documentation-only policy.
 - Became the operating model referenced when designing ownership for the company's next-generation unified data platform.
 
+## Result lenses
+- **Scale** — 1,700+ warehouse tables migrated in the initial pass, then the standard extended platform-wide; adopted as the operating standard across a team of 50+ analysts.
+- **Help** — 50+ analysts, who get automatic code-review routing and owner-routed Slack alerts instead of hunting for who owns a table; teams surviving reorgs and turnover, because the ownership contract requires two team-level aliases and never an individual.
+- **Problems** — ownership that decayed constantly because nothing enforced it: ownership sitting with the wrong group or ambiguous across a large share of ~1,700+ owned tables, thousands more tables with no owner at all. Now CI fails builds on missing or invalid ownership, and periodic re-validation plus mandatory reassignment on offboarding or reorg stops it going stale again.
+- **Leadership** — designed and led the phased migration off the legacy two-role model, defined the ownership contract and lifecycle, extended the standard beyond the transformation layer to scripts, ML models, and other pipeline-produced tables, and had the result adopted as the reference model for the company's next-generation unified data platform.
+
 ## Technologies
 dbt, Python, GitLab CI, Apache Airflow, Slack API, BigQuery.
 

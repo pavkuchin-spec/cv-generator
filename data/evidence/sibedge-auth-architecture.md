@@ -10,6 +10,12 @@ An enterprise data platform needed a consistent way to manage user permissions a
 ## Scale & outcome
 RBAC and audit-trail design adopted as the authentication architecture for the platform's 7 constituent data services.
 
+## Result lenses
+- **Scale** — an RBAC design spanning the platform's 7 constituent data services, with a complete audit trail of access decisions.
+- **Help** — none recorded. This dossier captures no user- or team-level impact and its source carries none; do not invent one.
+- **Problems** — permissions drifting out of consistency across independent services as data and access changed, addressed by propagating permission changes through an event-driven Kafka architecture rather than point-to-point synchronization between services; and the absence of a reliable audit trail.
+- **Leadership** — the design was adopted as the authentication architecture for all 7 of the platform's data services; no team or delivery ownership is recorded for this role.
+
 ## Technologies
 RBAC design, Apache Kafka, event-driven architecture, enterprise data platform systems analysis.
 

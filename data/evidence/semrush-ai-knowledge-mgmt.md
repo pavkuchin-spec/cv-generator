@@ -14,6 +14,12 @@ The company's internal AI data assistant (a natural-language data Q&A tool used 
 - Proved the model on a pilot scope (10 questions + underlying metrics) intended as the template for scaling knowledge certification to the rest of the AI assistant's coverage.
 - Shifted the assistant's knowledge model from "hardcoded, drifting text" to "reads live from a governed, versioned source at answer time."
 
+## Result lenses
+- **Scale** — a 6-month MVP program scoped to the ten highest-impact questions the assistant was asked, plus their underlying metrics, designed as the template for scaling certification to the rest of its coverage; one of five accountable capabilities in a RACI spanning three teams.
+- **Help** — users of the assistant, who now see a per-answer confidence signal derived from the certified/uncertified classification; the AI/analytics engineering, data-quality, and metric/data-owner groups, who got a defined RACI instead of undefined ownership of the knowledge layer.
+- **Problems** — knowledge hardcoded inside the assistant's own skill definitions and drifting away from the governed definitions in the catalog and transformation layer; definitions not authored for AI consumption (no caveats, freshness, or certification status); no lifecycle to propagate a governed definition into the assistant; no systematic way to detect wrong answers. The assistant's knowledge model shifted to reading live from a governed, versioned source at answer time.
+- **Leadership** — co-designed and helped launch the program, designed the two-store AI Knowledge Base architecture and the "Certified for AI" content standard, owned the knowledge-accumulation capability on behalf of Data Governance, and acted as named coordinator across the participating teams.
+
 ## Technologies
 Git-based knowledge repositories (MR/review workflow), metadata/catalog platform, MCP-based AI tool integration, internal conversational AI / data-assistant systems.
 
