@@ -1,4 +1,10 @@
 node_modules/
-variants/*/out/
 templates/.render-*.html
 .DS_Store
+
+# Only the untailored master variant is public. Real application variants
+# (company name, pasted JD, tailoring rationale) build and stay local.
+variants/*
+!variants/_base/
+!variants/_base/**
+variants/_base/out/
