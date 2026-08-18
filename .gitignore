@@ -8,3 +8,15 @@ variants/*
 !variants/_base/
 !variants/_base/**
 variants/_base/out/
+
+# Job-board fetch cache and daily dumps (regenerable / local).
+# Track inbox/prefs.yaml only.
+inbox/_gh/
+inbox/_ashby/
+inbox/_lever/
+inbox/_remoteok.json
+inbox/_arbeitnow.json
+inbox/shortlist.md
+inbox/raw-*.json
+inbox/week-1.md
+inbox/seen.json

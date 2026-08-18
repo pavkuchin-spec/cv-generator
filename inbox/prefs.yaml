@@ -1,0 +1,133 @@
+# Search prefs v0 — freeze before ingest/ranker code grows.
+# Honest-headline rules still live in CLAUDE.md; this file only says what to hunt.
+
+geo:
+  home: "Paphos, Cyprus"
+  accept:
+    - remote
+    - EU
+    - UK
+    - Cyprus
+    - EET
+    - EEST
+  reject:
+    - US-only onsite
+    - US visa not sponsored
+    - relocation required
+    - hybrid 2 days/week outside Cyprus  # London / Brussels office weeks = relocate
+
+titles:
+  # Honest headline can match the posting.
+  core:
+    - Data Governance Lead
+    - Data Governance Team Lead
+    - Data Governance Manager
+    - Data Governance Specialist
+    - Metadata Lead
+    - Data Catalog
+    - Data Discovery
+    - Lineage
+    - Data Quality Lead
+    - Data Stewardship
+    - Data Ownership
+  # Tailor only after Yes; always flag gaps (Neurons Lab pattern).
+  stretch:
+    - Data Platform Lead
+    - Analytics Enablement
+    - AI enablement for data/analytics
+    - AI governance
+    - Data Quality practitioner / catalog professional services
+  # Do not ping.
+  skip:
+    - CDO
+    - VP Data
+    - Head of Data
+    - Staff Data Engineer
+    - Spark IC
+    - Technical AI Engagement
+    - agentic coding
+    - LLM gateway
+    - Bedrock as the job
+    - privacy attorney / legal privacy program
+    - information-security controls / CISO-office GRC
+    - sales / GTM / customer enablement
+    - product manager of a governance *product* (unless we decide otherwise)
+
+boost_terms:
+  - metadata
+  - lineage
+  - catalog
+  - data ownership
+  - data contracts
+  - BigQuery
+  - dbt
+  - GCP
+  - Python
+  - Airflow
+  - MCP
+  - data governance
+  - stewardship
+  - enablement
+
+penalty_terms:
+  - Snowflake
+  - Databricks
+  - Claude Code
+  - Cursor
+  - Codex as daily requirement
+  - 20+ engineers
+  - engineering-org AI adoption
+  - iGaming
+  - Collibra (or other vendor) product champion as a hard requirement
+  - no visa sponsorship + US remote
+
+# Title-matcher pitfalls from 2026-08-18 smoke test — do not treat as core:
+# - "enablement" alone → sales/GTM/L&D
+# - "government" → US public-sector support, not governance
+# - "catalog" in Unity Catalog SWE titles
+# - "Engagement Manager" → professional-services delivery, not DG lead
+
+# Tokens that returned 200 on 2026-08-18. Prefer these next hour.
+watchlist_greenhouse:
+  - collibra
+  - elastic
+  - fivetran
+  - gitlab
+  - dataiku
+  - grafanalabs
+  - starburst
+  - wise
+  - n26
+  - adyen
+  - celonis
+  - contentful
+  - intercom
+  - datadog
+  - twilio
+  - remotecom
+  # large boards, high false-positive rate — keep for coverage, score tightly
+  - stripe
+  - databricks
+  - anthropic
+
+watchlist_ashby:
+  - atlan
+  - montecarlodata
+  - airbyte
+
+# Tried 2026-08-18, 404 or empty. Do not retry until a slug is confirmed.
+watchlist_dead:
+  greenhouse:
+    - alation
+    - montecarlodata
+    - montecarlo
+    - dbtlabs
+    - dbt
+    - airbyte
+    - grafana          # real token is grafanalabs
+    - thoughtspot
+    - bigeye
+    - confluent
+    - hubspot          # 200 but 0 jobs
+    - semrush
+  lever: all tried slugs 404
