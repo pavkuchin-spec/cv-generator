@@ -1,0 +1,4 @@
+node_modules/
+variants/*/out/
+templates/.render-*.html
+.DS_Store

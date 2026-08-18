@@ -1,0 +1,113 @@
+# Stable facts — do not change per application.
+# Only onepager.yaml / appendix.md content should be tailored per variant.
+
+name: "Pavel Kuchin"
+title: "Data Governance Team Lead"
+
+contact:
+  phone: "+357 92 523 592"
+  email: "pavkuchin@gmail.com"
+  linkedin: "www.linkedin.com/in/pavel-kuchin"
+  location: "Paphos, Cyprus"
+  telegram: "@PavKuchin"
+
+expertise:
+  Management:
+    - "Team Leadership"
+    - "Project Delivery"
+    - "Stakeholder Coordination"
+    - "Process Implementation"
+  Governance:
+    - "Strategic Thinking and Roadmap"
+    - "Agentic AI in Governance"
+    - "Frameworks & Policies Development"
+  Technical:
+    - "Python, SQL, Apache Airflow"
+    - "Big Data (GCP, BigQuery, Spark)"
+    - "Data Architecture (DWH, Lambda, Kappa)"
+    - "DevOps (CI/CD, Docker)"
+
+education:
+  - degree: "Master's degree"
+    school: "Higher School of Economics"
+    dates: "2020-2022"
+    field: "Business Analytics and Big Data Systems"
+  - degree: "Bachelor's degree"
+    school: "Higher School of Economics"
+    dates: "2016-2020"
+    field: 'Applied Mathematics, specialization "Stochastic Analysis"'
+
+certifications:
+  - "IBM Data Analyst"
+  - "Data Governance Essentials"
+  - "IBM DevOps & Software Engineering"
+  - "AI Agents Fundamentals"
+
+# Employer, title, and dates are fixed. Bullets below are the untailored
+# ("_base") defaults — a tailored variant may re-select/re-word bullets but
+# must not invent scope, change employer/title/dates, or claim work not
+# backed by data/evidence/*.md.
+roles:
+  - employer: "Semrush"
+    title: "Data Governance Team Lead"
+    dates: "July 2024 - Present"
+    intro: "Data Governance Leader who builds, not just governs. Enables analytics teams through hands-on technical implementation, not just theoretical policies:"
+    bullets:
+      - "Manage operations of the Data Governance Team (3 people)"
+      - "Developed a comprehensive two-year Data Governance strategy for the analytics division approved by VP"
+      - "Designed and developed (Python) Data Catalog automation in Confluence (1,500+ tables)"
+      - "Designed and scaled Data Ownership framework across a team of 50+ analysts"
+    evidence:
+      - semrush-dg-strategy
+      - semrush-metadata-platform
+      - semrush-data-ownership
+      - semrush-ai-knowledge-mgmt
+      - semrush-data-contracts
+
+  - employer: "Sibedge (Legato Data Platform)"
+    title: "System Analyst"
+    dates: "Aug 2023 - July 2024"
+    intro: "Designed authentication architecture for enterprise data platform:"
+    bullets:
+      - label: "System Architecture"
+        text: "Designed RBAC system across 7 data services with complete audit trail"
+      - label: "System Integration Design"
+        text: "Designed event-driven architecture (Kafka) to maintain consistent user permissions across the entire data ecosystem"
+    evidence:
+      - sibedge-auth-architecture
+
+  - employer: "DECO Systems"
+    title: "Lead Analyst"
+    dates: "July 2022 - Aug 2023"
+    intro: "Analytics team lead on the project to integrate Data Warehouse and BI reporting."
+    bullets:
+      - label: "Team Leadership"
+        text: "Led cross-functional team of 6 analysts and engineers, establishing development standards and best practices"
+      - label: "Technical Architecture"
+        text: "Implemented Data Vault 2.0 methodology for 100+ tables across 6 source systems"
+      - label: "Project Delivery"
+        text: "Successfully delivered corporate data warehouse on time and within budget constraints"
+    evidence:
+      - deco-datawarehouse
+
+  - employer: "TechAudit"
+    title: "Business Intelligence Analyst"
+    dates: "Aug 2019 - June 2022"
+    intro: "Delivered end-to-end analytical solutions for major retail and B2B clients, transforming business challenges into actionable insights:"
+    bullets:
+      - label: "Supply Chain Optimization"
+        text: "Developed inventory management dashboards reducing VkusVill operational costs by 12% through predictive analytics"
+      - label: "Demand Forecasting"
+        text: "Implemented SARIMAX models achieving sub-10% error rates, enabling proactive inventory planning"
+      - label: "Production Systems"
+        text: "Delivered 30+ operational dashboards across visualization platforms with automated data pipelines"
+    evidence:
+      - techaudit-analytics
+
+profile_default: >-
+  Data Governance Leader with 6+ years driving enterprise-scale initiatives and
+  proven team leadership across cross-functional environments. Currently
+  architecting Semrush's data governance strategy for 50+ analysts, building
+  scalable frameworks and engineering compliance. Unique combination of deep
+  technical expertise (Python, SQL, Big Data), strong communication skills and
+  demonstrated people leadership, positioning for data leadership roles.

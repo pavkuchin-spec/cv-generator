@@ -1,0 +1,6 @@
+# Untailored master variant — should reproduce the original Canva CV content
+# exactly. This is the trust anchor: if `_base` renders correctly, tailored
+# variants (which follow the same pipeline) can be trusted to render correctly
+# too. Leave profile/roles empty to fall back to data/profile.yaml defaults.
+
+profile:

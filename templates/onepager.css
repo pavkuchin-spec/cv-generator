@@ -1,0 +1,214 @@
+@font-face {
+  font-family: "Hanken Grotesk";
+  font-weight: 400;
+  src: url("fonts/HankenGrotesk-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Hanken Grotesk";
+  font-weight: 500;
+  src: url("fonts/HankenGrotesk-Medium.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Hanken Grotesk";
+  font-weight: 600;
+  src: url("fonts/HankenGrotesk-SemiBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Hanken Grotesk";
+  font-weight: 700;
+  src: url("fonts/HankenGrotesk-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Roboto";
+  font-weight: 400;
+  src: url("fonts/Roboto-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Roboto";
+  font-weight: 400;
+  font-style: italic;
+  src: url("fonts/Roboto-Italic.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Roboto";
+  font-weight: 700;
+  src: url("fonts/Roboto-Bold.ttf") format("truetype");
+}
+
+:root {
+  --scale: 1;
+  --ink: #2b2b2b;
+  --muted: #555555;
+  --rule: #2b2b2b;
+  --diamond: #3a3a3a;
+}
+
+* { box-sizing: border-box; }
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+html, body {
+  width: 210mm;
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Height is intentionally NOT fixed to 297mm: this lets overflowing content
+ * flow naturally past one page so Chrome's print pagination (driven by
+ * @page above) spills it onto a second sheet, which build.mjs detects via
+ * page count. A fixed height would silently clip overflow instead.
+ */
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  padding: calc(14mm * var(--scale)) calc(16mm * var(--scale));
+  display: flex;
+  flex-direction: column;
+  transform-origin: top left;
+}
+
+/* ---- Header ---- */
+.header {
+  text-align: center;
+  margin-bottom: calc(8mm * var(--scale));
+}
+.name {
+  font-family: "Hanken Grotesk", sans-serif;
+  font-weight: 600;
+  font-size: calc(30pt * var(--scale));
+  letter-spacing: calc(6pt * var(--scale));
+  text-transform: uppercase;
+  margin: 0;
+}
+.title {
+  font-family: "Hanken Grotesk", sans-serif;
+  font-weight: 500;
+  font-size: calc(11pt * var(--scale));
+  letter-spacing: calc(3.5pt * var(--scale));
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: calc(2mm * var(--scale));
+}
+
+/* ---- Body: two columns ---- */
+.body {
+  display: grid;
+  grid-template-columns: calc(55mm * var(--scale)) 1fr;
+  column-gap: calc(8mm * var(--scale));
+  flex: 1;
+  border-top: 1.2pt solid var(--rule);
+  padding-top: calc(6mm * var(--scale));
+}
+
+.col-left {
+  border-right: 1pt solid #cfcfcf;
+  padding-right: calc(6mm * var(--scale));
+}
+
+.section-title {
+  font-family: "Hanken Grotesk", sans-serif;
+  font-weight: 600;
+  font-size: calc(9.5pt * var(--scale));
+  letter-spacing: calc(2pt * var(--scale));
+  text-transform: uppercase;
+  margin: 0 0 calc(2.5mm * var(--scale)) 0;
+}
+
+.col-left .section { margin-bottom: calc(6mm * var(--scale)); }
+
+.contact-list, .cert-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: calc(8.3pt * var(--scale));
+  line-height: 1.5;
+}
+.contact-list li { margin-bottom: calc(1.2mm * var(--scale)); word-break: break-word; }
+
+.expertise-group { margin-bottom: calc(3mm * var(--scale)); }
+.expertise-group h4 {
+  font-family: "Hanken Grotesk", sans-serif;
+  font-weight: 600;
+  font-size: calc(8.3pt * var(--scale));
+  margin: 0 0 calc(1mm * var(--scale)) 0;
+}
+.expertise-group ul {
+  margin: 0;
+  padding-left: calc(4mm * var(--scale));
+  font-size: calc(8.3pt * var(--scale));
+  line-height: 1.45;
+}
+
+.edu-item { margin-bottom: calc(3mm * var(--scale)); font-size: calc(8.3pt * var(--scale)); line-height: 1.4; }
+.edu-item .degree { font-weight: 700; }
+.edu-item .school { font-weight: 700; }
+.edu-item .dates { color: var(--muted); }
+
+.cert-list li { margin-bottom: calc(1mm * var(--scale)); }
+
+/* ---- Right column ---- */
+.col-right { padding-left: calc(1mm * var(--scale)); }
+
+.profile-text {
+  font-size: calc(8.6pt * var(--scale));
+  line-height: 1.5;
+  margin: 0 0 calc(5mm * var(--scale)) 0;
+}
+
+.role {
+  position: relative;
+  padding-left: calc(5mm * var(--scale));
+  margin-bottom: calc(4.5mm * var(--scale));
+}
+.role::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(1.2mm * var(--scale));
+  width: calc(2.6mm * var(--scale));
+  height: calc(2.6mm * var(--scale));
+  background: var(--diamond);
+  transform: rotate(45deg);
+}
+.role-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: calc(3mm * var(--scale));
+}
+.role-title {
+  font-family: "Hanken Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: calc(10pt * var(--scale));
+}
+.role-dates {
+  font-size: calc(8pt * var(--scale));
+  color: var(--muted);
+  white-space: nowrap;
+}
+.role-employer {
+  font-size: calc(8.6pt * var(--scale));
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: calc(1mm * var(--scale));
+}
+.role-intro {
+  font-size: calc(8.3pt * var(--scale));
+  line-height: 1.4;
+  margin: calc(1mm * var(--scale)) 0 calc(1.5mm * var(--scale)) 0;
+}
+.role-bullets {
+  margin: 0;
+  padding-left: calc(4mm * var(--scale));
+  font-size: calc(8.3pt * var(--scale));
+  line-height: 1.42;
+}
+.role-bullets li { margin-bottom: calc(0.8mm * var(--scale)); }
+.role-bullets b { font-weight: 700; }

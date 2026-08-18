@@ -1,0 +1,16 @@
+{
+  "name": "cv-generator",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Agentic on-demand CV tailoring: renders a strict one-pager + long-form appendix PDF from YAML/Markdown sources.",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "marked": "^12.0.0",
+    "pdf-lib": "^1.17.1",
+    "puppeteer-core": "^23.0.0"
+  }
+}
