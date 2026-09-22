@@ -16,7 +16,7 @@ const forbiddenBinary = /\.(pdf|docx?|pages)$/i;
 const checks = [
   { label: "absolute home path", regex: /\/(Users|home)\/[A-Za-z0-9._-]+\//g },
   { label: "non-example email", regex: /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi, allow: (value) => /@example\.com$|@users\.noreply\.github\.com$/i.test(value) },
-  { label: "phone number", regex: /\+?\d[\d ()-]{8,}\d/g, allow: (value) => /202[- )]?555[- ]?01\d{2}/.test(value) },
+  { label: "phone number", regex: /\+?\d[\d ()-]{8,}\d/g, allow: (value) => /202[- )]?555[- ]?01\d{2}/.test(value) || /^\d{4}-\d{2}-\d{2}$/.test(value) },
   { label: "private-source reference", regex: /private (obsidian|notes) vault|source:\s*`?projects\//gi },
 ];
 
