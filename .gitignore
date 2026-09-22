@@ -1,0 +1,16 @@
+node_modules/
+templates/.render-*.html
+.DS_Store
+
+# Private candidate workspaces and the local selector never belong in Git.
+/.cv-local/
+/cv.local.yaml
+
+# Generated artifacts in the tracked fictional examples.
+/examples/**/variants/*/out/
+/examples/**/inbox/_gh/
+/examples/**/inbox/_ashby/
+/examples/**/inbox/_lever/
+/examples/**/inbox/shortlist.md
+/examples/**/inbox/raw-*.json
+inbox/seen.json

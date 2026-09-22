@@ -1,0 +1,28 @@
+headline: "Senior Backend Engineer"
+profile: >-
+  Senior backend engineer with 8+ years designing reliable APIs and
+  distributed systems in TypeScript and Go. Delivered event-driven services
+  at multi-million-event scale, reduced production failures, and led
+  cross-functional reliability and delivery improvements.
+expertise:
+  Engineering:
+    - "Backend Systems"
+    - "API Design"
+    - "Distributed Systems"
+    - "Observability"
+  Technical:
+    - "TypeScript, Go, SQL"
+    - "PostgreSQL, Redis, Kafka"
+    - "Docker, Kubernetes"
+roles:
+  - employer: "Northstar Labs"
+    title: "Senior Software Engineer"
+    bullets:
+      - "Reduced checkout API error rates from 1.8% to 0.3% by redesigning idempotency and retry handling in TypeScript"
+      - "Cut median incident recovery time by 45% with OpenTelemetry dashboards, tracing, and incident-response runbooks"
+      - "Led delivery of a Kafka billing workflow processing 8 million events per month across three services"
+  - employer: "Riverbend Systems"
+    title: "Software Engineer"
+    bullets:
+      - "Prevented breaking-change incidents across 40+ integrations by designing versioned REST APIs"
+      - "Shortened deployment lead time from two days to under one hour through automated delivery pipelines"

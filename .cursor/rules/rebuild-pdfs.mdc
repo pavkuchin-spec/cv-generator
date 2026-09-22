@@ -1,0 +1,17 @@
+---
+description: After wording tweaks, render PDFs with the rebuild script — never re-tailor
+globs: "**/variants/**"
+alwaysApply: false
+---
+
+# Rebuild, don't re-tailor
+
+When the candidate has edited `onepager.yaml` / `appendix.md` / `cover-letter.md` and wants PDFs updated, run **only**:
+
+```
+node scripts/rebuild.mjs
+```
+
+Pass the open file path or variant slug if you know it. Then stop.
+
+Do not run `/tailor`. Do not rewrite bullets, headlines, or evidence. Do not apply the one-page cut order. Report overflow or YAML errors and wait for the human to edit the source.

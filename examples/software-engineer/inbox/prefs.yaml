@@ -1,0 +1,34 @@
+timezone: "Europe/Berlin"
+fetch_cap: 10
+card_cap: 5
+
+headline:
+  default: "Senior Software Engineer"
+  max_chars: 42
+  review_terms: [principal, staff, director, head, vice president, vp]
+
+titles:
+  core:
+    - senior backend engineer
+    - senior software engineer
+    - backend engineer
+  stretch:
+    - platform engineer
+    - site reliability engineer
+  reject:
+    - frontend only
+    - engineering director
+    - mobile engineer
+
+geo:
+  home_terms: [berlin, germany]
+  accept_terms: [remote, europe, eu, emea, germany, berlin]
+  reject_terms: [us only, relocation required]
+  hybrid_outside_home: reject
+
+boost_terms: [typescript, go, postgresql, kafka, kubernetes, observability, api]
+penalty_terms: [ios, android, php]
+
+watchlist_greenhouse: []
+watchlist_ashby: []
+watchlist_dead: {}

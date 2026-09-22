@@ -1,0 +1,31 @@
+{
+  "jobs": [
+    {
+      "id": "demo-1",
+      "company": "ExampleWorks",
+      "title": "Senior Backend Engineer",
+      "location": "Remote - Europe",
+      "text": "Design TypeScript and Go APIs with PostgreSQL, Kafka, Kubernetes, and observability.",
+      "url": "https://example.com/jobs/demo-1",
+      "expected": "Prep"
+    },
+    {
+      "id": "demo-2",
+      "company": "Sample Systems",
+      "title": "Platform Engineer",
+      "location": "Berlin, Germany",
+      "text": "Improve internal delivery tooling and Kubernetes reliability.",
+      "url": "https://example.com/jobs/demo-2",
+      "expected": "Later"
+    },
+    {
+      "id": "demo-3",
+      "company": "Placeholder Mobile",
+      "title": "Senior Mobile Engineer",
+      "location": "Remote - Europe",
+      "text": "Build native iOS applications.",
+      "url": "https://example.com/jobs/demo-3",
+      "expected": "Skip"
+    }
+  ]
+}

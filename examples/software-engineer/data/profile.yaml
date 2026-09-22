@@ -1,0 +1,74 @@
+name: "Taylor Rowan"
+title: "Senior Software Engineer"
+headline_default: "Senior Software Engineer"
+
+contact:
+  phone: "+1 202-555-0147"
+  email: "taylor.rowan@example.com"
+  portfolio: "https://example.com/taylor-rowan"
+  location: "Berlin, Germany"
+  github: "https://github.com/example"
+
+expertise:
+  Engineering:
+    - "Backend Systems"
+    - "API Design"
+    - "Distributed Systems"
+    - "Observability"
+  Delivery:
+    - "Technical Leadership"
+    - "Cross-functional Planning"
+    - "Incident Management"
+  Technical:
+    - "TypeScript, Go, SQL"
+    - "PostgreSQL, Redis, Kafka"
+    - "Docker, Kubernetes"
+    - "GitHub Actions, OpenTelemetry"
+
+education:
+  - degree: "BSc Computer Science"
+    school: "Example State University"
+    dates: "2013-2017"
+    field: "Software Engineering"
+
+certifications:
+  - "Cloud Architecture Fundamentals"
+  - "Kubernetes Application Developer"
+
+roles:
+  - employer: "Northstar Labs"
+    title: "Senior Software Engineer"
+    dates: "2022-Present"
+    intro: "Leads backend reliability and platform improvements for a subscription analytics product."
+    bullets:
+      - "Reduced checkout API error rates from 1.8% to 0.3% by redesigning idempotency and retry handling"
+      - "Cut median incident recovery time by 45% with service-level dashboards and runbook automation"
+      - "Led delivery of an event-driven billing workflow processing 8 million events per month"
+    evidence:
+      - reliable-checkout-api
+      - billing-event-platform
+
+  - employer: "Riverbend Systems"
+    title: "Software Engineer"
+    dates: "2019-2022"
+    intro: "Built developer tooling and customer-facing APIs for a logistics software platform."
+    bullets:
+      - "Shortened deployment lead time from two days to under one hour by introducing automated release pipelines"
+      - "Prevented breaking-change incidents across 40+ customer integrations by designing versioned REST APIs"
+      - "Mentored four engineers and introduced lightweight design reviews, enabling consistent decisions across two product squads"
+    evidence:
+      - developer-delivery-platform
+
+  - employer: "Harbor Software Studio"
+    title: "Junior Software Engineer"
+    dates: "2017-2019"
+    intro: "Delivered web applications and internal automation for small-business clients."
+    bullets:
+      - "Replaced manual weekly exports with scheduled reporting jobs, saving client teams about 12 hours per month"
+      - "Added integration tests that reduced regression defects reported after release by 30%"
+
+profile_default: >-
+  Senior software engineer with 8+ years building reliable backend systems,
+  APIs, and delivery tooling. Combines hands-on TypeScript and Go development
+  with technical leadership, incident reduction, and measurable improvements
+  to deployment speed and service reliability.
