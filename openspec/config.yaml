@@ -1,0 +1,50 @@
+schema: spec-driven
+
+context: |
+  cv-generator turns structured candidate evidence plus a job description into a
+  one-page CV, appendix, cover letter, and plain-text CV.
+
+  Stack: Node.js ESM (no build step), js-yaml, marked, pdf-lib, puppeteer.
+  Entry points: build.mjs, scripts/ (init-workspace, rebuild, ingest, privacy-audit),
+  templates/, test/ (node --test).
+
+  Verification: `node build.mjs <slug> [--workspace <path>]`, `npm test`,
+  `npm run audit:public`. PDFs need visual review after template/layout changes.
+
+  Hard constraints (see CLAUDE.md):
+  - Workspace boundary: real candidate data lives only in .cv-local/ or an external
+    workspace; never in examples, tests, fixtures, comments, or docs.
+  - Truthfulness: every tailored claim must trace to profile.yaml or data/evidence/.
+  - Sanitization: no colleague names, ticket keys, internal URLs, repo names, or
+    codenames in generated artifacts.
+
+# Project context (optional)
+# This is shown to AI when creating artifacts.
+# Add your tech stack, conventions, style guides, domain knowledge, etc.
+# Example:
+#   context: |
+#     Tech stack: TypeScript, React, Node.js
+#     We use conventional commits
+#     Domain: e-commerce platform
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always include a "Non-goals" section
+#     tasks:
+#       - Break tasks into chunks of max 2 hours
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+# This is separate from artifact rules above.
+# Example:
+#   operations:
+#     apply:
+#       guidance:
+#         - Keep test summaries concise
+#     archive:
+#       guidance:
+#         - Summarize the archive outcome before finishing
