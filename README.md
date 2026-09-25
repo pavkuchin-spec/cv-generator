@@ -49,6 +49,37 @@ Workspace selection follows a predictable order:
 
 See `examples/software-engineer` for a complete fictional dataset and `CLAUDE.md` for agent-facing tailoring rules.
 
+## One-page design
+
+For an ordinary application, start with Claude Code or Cursor `/tailor`, or the Codex `$tailor` skill, and include any layout or preset preference in the request. All three use the shared instructions in [the tailoring skill](.agents/skills/tailor/SKILL.md). An existing variant with no design settings keeps the classic two-column A4 design. The build reads optional `<workspace>/data/design.yaml` defaults and then `<workspace>/variants/<slug>/design.yaml` overrides. Design settings change the PDF appearance; they do not change candidate facts or `cv-plain.txt`.
+
+The built-in presets are `classic` (two columns) and `compact` (one column). For example, set workspace defaults in `data/design.yaml`:
+
+```yaml
+preset: classic
+page:
+  size: letter
+colors:
+  accent: "#304f68"
+```
+
+Then select one column for one variant in `variants/<slug>/design.yaml`:
+
+```yaml
+layout: one-column
+sections:
+  headerAlign: left
+  ruleStyle: dashed
+```
+
+You can also choose `preset: compact` in either file. Supported page sizes are `a4` and `letter`; page margins use millimeters. `fonts` accepts bundled `Roboto` and `Hanken Grotesk`, with sizes in points. `colors` use six-digit hex values. `spacing` values use millimeters. Available keys and bounds are defined in [design.mjs](scripts/lib/design.mjs). Invalid settings identify the key and stop the build. Each design must still fit on one page; the build reports overflow instead of changing the selected layout or clipping content.
+
+## PDF extraction evidence
+
+Each successful build writes `out/ats-evidence.json` next to the one-page PDF. The report names the layout, confirms that the PDF text extractor found the resolved name, contact details, employers, held titles, dates, and education facts, and lists any missing field paths. Missing facts or unreadable PDF text fail the build. Section-order warnings are advisory because a parser may read a two-column page differently from its visual order. A pass shows that these core facts are extractable from this PDF; it does not prove acceptance or ranking by a commercial ATS. The plain-text CV and job keyword report remain separate outputs.
+
+Use `npm run rebuild -- <slug>` to rerender an existing variant and refresh its PDF report without editing tailored content.
+
 ## Optional job radar
 
 Radar behavior is configured entirely by `<workspace>/inbox/prefs.yaml`: title bands, geography, review-required seniority, scoring terms, timezone, caps, and watchlists.
