@@ -46,15 +46,15 @@
 * { box-sizing: border-box; }
 
 @page {
-  size: A4;
+  size: var(--page-width) var(--page-height);
   margin: 0;
 }
 
 html, body {
-  width: 210mm;
+  width: var(--page-width);
   margin: 0;
   padding: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: var(--body-font), sans-serif;
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
 }
@@ -66,9 +66,9 @@ html, body {
  * page count. A fixed height would silently clip overflow instead.
  */
 .page {
-  width: 210mm;
-  min-height: 297mm;
-  padding: calc(14mm * var(--scale)) calc(16mm * var(--scale));
+  width: var(--page-width);
+  min-height: var(--page-height);
+  padding: calc(var(--margin-y) * var(--scale)) calc(var(--margin-x) * var(--scale));
   display: flex;
   flex-direction: column;
   transform-origin: top left;
@@ -76,21 +76,21 @@ html, body {
 
 /* ---- Header ---- */
 .header {
-  text-align: center;
-  margin-bottom: calc(8mm * var(--scale));
+  text-align: var(--header-align);
+  margin-bottom: calc(var(--header-space) * var(--scale));
 }
 .name {
-  font-family: "Hanken Grotesk", sans-serif;
+  font-family: var(--heading-font), sans-serif;
   font-weight: 600;
-  font-size: calc(30pt * var(--scale));
+  font-size: calc(var(--name-size) * var(--scale));
   letter-spacing: calc(6pt * var(--scale));
   text-transform: uppercase;
   margin: 0;
 }
 .title {
-  font-family: "Hanken Grotesk", sans-serif;
+  font-family: var(--heading-font), sans-serif;
   font-weight: 500;
-  font-size: calc(11pt * var(--scale));
+  font-size: calc(var(--title-size) * var(--scale));
   letter-spacing: calc(3.5pt * var(--scale));
   text-transform: uppercase;
   color: var(--muted);
@@ -100,53 +100,53 @@ html, body {
 /* ---- Body: two columns ---- */
 .body {
   display: grid;
-  grid-template-columns: calc(55mm * var(--scale)) 1fr;
-  column-gap: calc(8mm * var(--scale));
+  grid-template-columns: calc(var(--sidebar-width) * var(--scale)) 1fr;
+  column-gap: calc(var(--column-gap) * var(--scale));
   flex: 1;
-  border-top: 1.2pt solid var(--rule);
+  border-top: 1.2pt var(--rule-style) var(--rule);
   padding-top: calc(6mm * var(--scale));
 }
 
 .col-left {
-  border-right: 1pt solid #cfcfcf;
+  border-right: 1pt solid var(--sidebar-rule);
   padding-right: calc(6mm * var(--scale));
 }
 
 .section-title {
-  font-family: "Hanken Grotesk", sans-serif;
+  font-family: var(--heading-font), sans-serif;
   font-weight: 600;
-  font-size: calc(9.5pt * var(--scale));
+  font-size: calc(var(--section-size) * var(--scale));
   letter-spacing: calc(2pt * var(--scale));
   text-transform: uppercase;
   margin: 0 0 calc(2.5mm * var(--scale)) 0;
 }
 
-.col-left .section { margin-bottom: calc(6mm * var(--scale)); }
+.col-left .section, .col-main .section { margin-bottom: calc(var(--section-space) * var(--scale)); }
 
 .contact-list, .cert-list {
   list-style: none;
   margin: 0;
   padding: 0;
-  font-size: calc(8.3pt * var(--scale));
+  font-size: calc(var(--body-size) * var(--scale));
   line-height: 1.5;
 }
 .contact-list li { margin-bottom: calc(1.2mm * var(--scale)); word-break: break-word; }
 
 .expertise-group { margin-bottom: calc(3mm * var(--scale)); }
 .expertise-group h4 {
-  font-family: "Hanken Grotesk", sans-serif;
+  font-family: var(--heading-font), sans-serif;
   font-weight: 600;
-  font-size: calc(8.3pt * var(--scale));
+  font-size: calc(var(--body-size) * var(--scale));
   margin: 0 0 calc(1mm * var(--scale)) 0;
 }
 .expertise-group ul {
   margin: 0;
   padding-left: calc(4mm * var(--scale));
-  font-size: calc(8.3pt * var(--scale));
+  font-size: calc(var(--body-size) * var(--scale));
   line-height: 1.45;
 }
 
-.edu-item { margin-bottom: calc(3mm * var(--scale)); font-size: calc(8.3pt * var(--scale)); line-height: 1.4; }
+.edu-item { margin-bottom: calc(3mm * var(--scale)); font-size: calc(var(--body-size) * var(--scale)); line-height: 1.4; }
 .edu-item .degree { font-weight: 700; }
 .edu-item .school { font-weight: 700; }
 .edu-item .dates { color: var(--muted); }
@@ -157,7 +157,7 @@ html, body {
 .col-right { padding-left: calc(1mm * var(--scale)); }
 
 .profile-text {
-  font-size: calc(8.6pt * var(--scale));
+  font-size: calc(var(--profile-size) * var(--scale));
   line-height: 1.5;
   margin: 0 0 calc(5mm * var(--scale)) 0;
 }
@@ -165,7 +165,7 @@ html, body {
 .role {
   position: relative;
   padding-left: calc(5mm * var(--scale));
-  margin-bottom: calc(4.5mm * var(--scale));
+  margin-bottom: calc(var(--role-space) * var(--scale));
 }
 .role::before {
   content: "";
@@ -184,7 +184,7 @@ html, body {
   gap: calc(3mm * var(--scale));
 }
 .role-title {
-  font-family: "Hanken Grotesk", sans-serif;
+  font-family: var(--heading-font), sans-serif;
   font-weight: 700;
   font-size: calc(10pt * var(--scale));
 }
@@ -194,21 +194,32 @@ html, body {
   white-space: nowrap;
 }
 .role-employer {
-  font-size: calc(8.6pt * var(--scale));
+  font-size: calc(var(--profile-size) * var(--scale));
   font-style: italic;
   color: var(--muted);
   margin-bottom: calc(1mm * var(--scale));
 }
 .role-intro {
-  font-size: calc(8.3pt * var(--scale));
+  font-size: calc(var(--body-size) * var(--scale));
   line-height: 1.4;
   margin: calc(1mm * var(--scale)) 0 calc(1.5mm * var(--scale)) 0;
 }
 .role-bullets {
   margin: 0;
   padding-left: calc(4mm * var(--scale));
-  font-size: calc(8.3pt * var(--scale));
+  font-size: calc(var(--body-size) * var(--scale));
   line-height: 1.42;
 }
 .role-bullets li { margin-bottom: calc(0.8mm * var(--scale)); }
 .role-bullets b { font-weight: 700; }
+
+.layout-one-column .body { display: block; }
+.layout-one-column .col-main { width: 100%; }
+.layout-one-column .role { break-inside: avoid; }
+.layout-one-column .contact-list { display: flex; flex-wrap: wrap; column-gap: 5mm; }
+.layout-one-column .expertise-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 6mm; }
+.layout-one-column .expertise-group { margin-bottom: 1mm; }
+.layout-one-column .col-main .section { margin-bottom: calc(var(--section-space) * 0.55 * var(--scale)); }
+.layout-one-column .role { margin-bottom: calc(var(--role-space) * 0.6 * var(--scale)); }
+.layout-one-column .body { padding-top: calc(4mm * var(--scale)); }
+.layout-one-column .profile-text { margin-bottom: calc(3mm * var(--scale)); }

@@ -10,10 +10,11 @@ import { marked } from "marked";
 import puppeteer from "puppeteer";
 import { PDFDocument } from "pdf-lib";
 import { resolveWorkspace } from "./scripts/lib/workspace.mjs";
+import { readDesign, designCss, pageDimensions } from "./scripts/lib/design.mjs";
+import { assertEvidence, verifyPdf } from "./scripts/lib/ats-evidence.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PX_PER_MM = 96 / 25.4; // CSS reference pixels
-const PAGE_HEIGHT_MM = 297;
 const AUTOFIT_SCALES = [1.0, 0.985, 0.97, 0.955, 0.94];
 
 // .title in onepager.css is uppercase with 3.5pt letter-spacing, so it wraps
@@ -73,7 +74,7 @@ function esc(s) {
 // ---- one-pager HTML assembly ----
 
 function renderExpertise(expertise) {
-  return Object.entries(expertise)
+  return `<div class="expertise-list">${Object.entries(expertise)
     .map(
       ([group, items]) => `
       <div class="expertise-group">
@@ -81,7 +82,7 @@ function renderExpertise(expertise) {
         <ul>${items.map((i) => `<li>${esc(i)}</li>`).join("")}</ul>
       </div>`
     )
-    .join("");
+    .join("")}</div>`;
 }
 
 function renderEducation(education) {
@@ -98,8 +99,8 @@ function renderEducation(education) {
     .join("");
 }
 
-function renderLeftColumn(profile, expertise) {
-  const c = profile.contact;
+function renderLeftColumn(content) {
+  const c = content.contact;
   return `
     <div class="section">
       <div class="section-title">Contact</div>
@@ -109,15 +110,15 @@ function renderLeftColumn(profile, expertise) {
     </div>
     <div class="section">
       <div class="section-title">Expertise</div>
-      ${renderExpertise(expertise)}
+      ${renderExpertise(content.expertise)}
     </div>
     <div class="section">
       <div class="section-title">Education</div>
-      ${renderEducation(profile.education)}
+      ${renderEducation(content.education)}
     </div>
     <div class="section">
       <div class="section-title">Certifications</div>
-      <ul class="cert-list">${profile.certifications.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>
+      <ul class="cert-list">${content.certifications.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>
     </div>`;
 }
 
@@ -139,12 +140,46 @@ function renderRole(role) {
     </div>`;
 }
 
-function renderRightColumn(profileText, roles) {
+function renderRightColumn(content) {
   return `
     <div class="section-title">Profile</div>
-    <p class="profile-text">${esc(profileText)}</p>
+    <p class="profile-text">${esc(content.profileText)}</p>
     <div class="section-title">Work Experience</div>
-    ${roles.map(renderRole).join("")}`;
+    ${content.roles.map(renderRole).join("")}`;
+}
+
+function resolveContent(profile, variantYaml, headline) {
+  return {
+    name: profile.name, headline, contact: profile.contact,
+    profileText: variantYaml.profile || profile.profile_default,
+    expertise: mergeExpertise(profile.expertise, variantYaml.expertise),
+    roles: mergeRoles(profile.roles, variantYaml.roles),
+    education: profile.education, certifications: profile.certifications,
+  };
+}
+
+function renderOnepagerHtml(template, content, design, scale) {
+  const left = renderLeftColumn(content);
+  const right = renderRightColumn(content);
+  const contacts = Object.values(content.contact).filter(Boolean).map((value) => `<li>${esc(value)}</li>`).join("");
+  const oneColumn = `
+    <div class="col-main">
+      <div class="section contact-section"><div class="section-title">Contact</div><ul class="contact-list">${contacts}</ul></div>
+      <div class="section"><div class="section-title">Profile</div><p class="profile-text">${esc(content.profileText)}</p></div>
+      <div class="section"><div class="section-title">Expertise</div>${renderExpertise(content.expertise)}</div>
+      <div class="section"><div class="section-title">Work Experience</div>${content.roles.map(renderRole).join("")}</div>
+      <div class="section"><div class="section-title">Education</div>${renderEducation(content.education)}</div>
+      <div class="section"><div class="section-title">Certifications</div><ul class="cert-list">${content.certifications.map((cert) => `<li>${esc(cert)}</li>`).join("")}</ul></div>
+    </div>`;
+  const body = design.layout === "one-column"
+    ? oneColumn
+    : `<div class="col-left">${left}</div><div class="col-right">${right}</div>`;
+  return template
+    .replace(/\{\{NAME\}\}/g, esc(content.name))
+    .replace(/\{\{TITLE\}\}/g, esc(content.headline))
+    .replace("{{DESIGN_CSS}}", designCss(design, scale))
+    .replace("{{LAYOUT}}", design.layout)
+    .replace("{{BODY}}", body);
 }
 
 // Overrides are patches, not a replacement list: a variant naming only one
@@ -254,28 +289,21 @@ function lintBullets(roles) {
   }
 }
 
-async function buildOnepager(browser, profile, variantYaml, headline, outDir) {
+async function buildOnepager(browser, content, design, outDir) {
   const templateDir = path.join(__dirname, "templates");
   const template = fs.readFileSync(path.join(templateDir, "onepager.html"), "utf8");
-  const profileText = variantYaml.profile || profile.profile_default;
-  const roles = mergeRoles(profile.roles, variantYaml.roles);
-  const expertise = mergeExpertise(profile.expertise, variantYaml.expertise);
+  const { height: pageHeight } = pageDimensions(design);
 
   let lastMeasuredOverflowMm = null;
 
   for (const scale of AUTOFIT_SCALES) {
-    let html = template
-      .replace(/\{\{NAME\}\}/g, esc(profile.name))
-      .replace(/\{\{TITLE\}\}/g, esc(headline))
-      .replace("{{SCALE}}", scale)
-      .replace("{{LEFT_COLUMN}}", renderLeftColumn(profile, expertise))
-      .replace("{{RIGHT_COLUMN}}", renderRightColumn(profileText, roles));
+    const html = renderOnepagerHtml(template, content, design, scale);
 
     const page = await renderViaTempFile(browser, templateDir, html);
 
     const heightPx = await page.evaluate(() => document.querySelector(".page").getBoundingClientRect().height);
     const heightMm = heightPx / PX_PER_MM;
-    const overflowMm = heightMm - PAGE_HEIGHT_MM;
+    const overflowMm = heightMm - pageHeight;
 
     const outPath = path.join(outDir, "onepager.pdf");
     await page.pdf({ path: outPath, printBackground: true, preferCSSPageSize: true });
@@ -288,9 +316,9 @@ async function buildOnepager(browser, profile, variantYaml, headline, outDir) {
       if (scale !== AUTOFIT_SCALES[0]) {
         console.log(`  onepager: fit at scale ${scale} (autofit)`);
       } else {
-        console.log(`  onepager: fits at full scale (${heightMm.toFixed(1)}mm / 297mm)`);
+        console.log(`  onepager: fits at full scale (${heightMm.toFixed(1)}mm / ${pageHeight}mm)`);
       }
-      lintBullets(roles);
+      lintBullets(content.roles);
       return;
     }
     lastMeasuredOverflowMm = overflowMm;
@@ -370,25 +398,24 @@ async function buildCoverLetter(browser, profile, headline, variantDir, outDir) 
 
 // ---- plain text (ATS safety net) ----
 
-function buildPlainText(profile, variantYaml, headline, outDir) {
+function buildPlainText(content, outDir) {
   const lines = [];
-  lines.push(profile.name.toUpperCase());
-  lines.push(headline);
+  lines.push(content.name.toUpperCase());
+  lines.push(content.headline);
   lines.push("");
-  const c = profile.contact;
+  const c = content.contact;
   lines.push(Object.values(c).filter(Boolean).join(" | "));
   lines.push("");
   lines.push("PROFILE");
-  lines.push(variantYaml.profile || profile.profile_default);
+  lines.push(content.profileText);
   lines.push("");
   lines.push("EXPERTISE");
-  for (const [group, items] of Object.entries(mergeExpertise(profile.expertise, variantYaml.expertise))) {
+  for (const [group, items] of Object.entries(content.expertise)) {
     lines.push(`${group}: ${items.join(", ")}`);
   }
   lines.push("");
   lines.push("WORK EXPERIENCE");
-  const roles = mergeRoles(profile.roles, variantYaml.roles);
-  for (const r of roles) {
+  for (const r of content.roles) {
     lines.push("");
     lines.push(`${r.title} — ${r.employer} (${r.dates})`);
     if (r.intro) lines.push(r.intro);
@@ -398,12 +425,12 @@ function buildPlainText(profile, variantYaml, headline, outDir) {
   }
   lines.push("");
   lines.push("EDUCATION");
-  for (const e of profile.education) {
+  for (const e of content.education) {
     lines.push(`${e.degree}, ${e.school} (${e.dates}) — ${e.field}`);
   }
   lines.push("");
   lines.push("CERTIFICATIONS");
-  for (const cert of profile.certifications) lines.push(`- ${cert}`);
+  for (const cert of content.certifications) lines.push(`- ${cert}`);
   lines.push("");
 
   const text = lines.join("\n");
@@ -471,24 +498,32 @@ async function main() {
 
   const outDir = path.join(variantDir, "out");
   fs.mkdirSync(outDir, { recursive: true });
+  fs.rmSync(path.join(outDir, "ats-evidence.json"), { force: true });
 
   const profile = readYaml(path.join(workspaceDir, "data/profile.yaml"));
   const onepagerYamlPath = path.join(variantDir, "onepager.yaml");
   const variantYaml = fs.existsSync(onepagerYamlPath) ? readYaml(onepagerYamlPath) || {} : {};
+  const design = readDesign(workspaceDir, variantDir);
 
   console.log(`Building variant "${variantSlug}"...`);
   const headline = resolveHeadline(profile, variantYaml);
+  const content = resolveContent(profile, variantYaml, headline);
   const launchOptions = { headless: true };
   if (process.env.CV_CHROME_PATH) launchOptions.executablePath = process.env.CV_CHROME_PATH;
   const browser = await puppeteer.launch(launchOptions);
   try {
-    await buildOnepager(browser, profile, variantYaml, headline, outDir);
+    await buildOnepager(browser, content, design, outDir);
+    const evidence = await verifyPdf(path.join(outDir, "onepager.pdf"), content, design.layout);
+    fs.writeFileSync(path.join(outDir, "ats-evidence.json"), `${JSON.stringify(evidence, null, 2)}\n`);
+    assertEvidence(evidence);
+    console.log(`  ATS PDF evidence: pass (${evidence.coreFacts.checked} core facts checked)`);
+    for (const warning of evidence.sectionOrder.warnings) console.log(`    ⚠ ${warning}`);
     await buildAppendix(browser, profile, headline, variantDir, outDir);
     await buildCoverLetter(browser, profile, headline, variantDir, outDir);
   } finally {
     await browser.close();
   }
-  const plainText = buildPlainText(profile, variantYaml, headline, outDir);
+  const plainText = buildPlainText(content, outDir);
 
   const appendixPath = path.join(variantDir, "appendix.md");
   const appendixMd = fs.existsSync(appendixPath) ? fs.readFileSync(appendixPath, "utf8") : "";
