@@ -489,11 +489,11 @@ function reportKeywordCoverage(variantDir, onepagerText, appendixMd) {
 // ---- main ----
 
 async function main() {
-  const { workspaceDir, args } = resolveWorkspace({ root: __dirname });
+  const { workspaceDir, variantsDir, args } = resolveWorkspace({ root: __dirname });
   const variantSlug = args[0];
   if (!variantSlug) fail("usage: node build.mjs <variant-slug> [--workspace <path>]");
 
-  const variantDir = path.join(workspaceDir, "variants", variantSlug);
+  const variantDir = path.join(variantsDir, variantSlug);
   if (!fs.existsSync(variantDir)) fail(`no such variant: ${path.relative(__dirname, variantDir)}`);
 
   const outDir = path.join(variantDir, "out");

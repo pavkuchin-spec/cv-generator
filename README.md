@@ -27,7 +27,7 @@ node build.mjs exampleworks-senior-backend-engineer --workspace examples/softwar
 npm run init
 ```
 
-This copies the example to `cv-local/workspace` and creates `cv.local.yaml`. Both paths are ignored by Git. Replace the fictional profile and evidence there with your own information, then run:
+This copies the profile and evidence to `cv-local/workspace`, puts application variants in the root `variants/` folder, and creates `cv.local.yaml`. All three paths are ignored by Git. Replace the fictional profile and evidence there with your own information, then run:
 
 ```sh
 npm run rebuild -- _base
@@ -51,7 +51,7 @@ See `examples/software-engineer` for a complete fictional dataset and `CLAUDE.md
 
 ## One-page design
 
-For an ordinary application, start with Claude Code or Cursor `/tailor`, or the Codex `$tailor` skill, and include any layout or preset preference in the request. All three use the shared instructions in [the tailoring skill](.agents/skills/tailor/SKILL.md). An existing variant with no design settings keeps the classic two-column A4 design. The build reads optional `<workspace>/data/design.yaml` defaults and then `<workspace>/variants/<slug>/design.yaml` overrides. Design settings change the PDF appearance; they do not change candidate facts or `cv-plain.txt`.
+For an ordinary application, start with Claude Code or Cursor `/tailor`, or the Codex `$tailor` skill, and include any layout or preset preference in the request. All three use the shared instructions in [the tailoring skill](.agents/skills/tailor/SKILL.md). An existing variant with no design settings keeps the classic two-column A4 design. The build reads optional `<workspace>/data/design.yaml` defaults and then `<variantsDir>/<slug>/design.yaml` overrides. Design settings change the PDF appearance; they do not change candidate facts or `cv-plain.txt`.
 
 The built-in presets are `classic` (two columns) and `compact` (one column). For example, set workspace defaults in `data/design.yaml`:
 
@@ -117,3 +117,5 @@ Generated outputs and private workspaces remain untracked. Before publishing cha
 ## License
 
 Code and documentation are available under the [MIT License](LICENSE). Vendored fonts retain the licenses described in `templates/fonts/NOTICE.md`.
+
+The standard local workspace uses root `variants/` for applications. Explicit external workspaces and fictional examples use their own `<workspace>/variants/` folders. Build and rebuild resolve this location consistently.

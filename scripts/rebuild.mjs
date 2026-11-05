@@ -6,8 +6,7 @@ import { fileURLToPath } from "node:url";
 import { resolveWorkspace } from "./lib/workspace.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const { workspaceDir, args } = resolveWorkspace({ root });
-const variantsDir = path.join(workspaceDir, "variants");
+const { workspaceDir, variantsDir, args } = resolveWorkspace({ root });
 
 function slugFromPath(candidate) {
   const normalized = path.resolve(candidate).split(path.sep);

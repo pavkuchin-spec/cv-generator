@@ -27,3 +27,17 @@ test("local config overrides the default", () => {
   assert.equal(result.workspaceDir, path.join(root, "cv-local/workspace"));
   assert.equal(result.source, "local-config");
 });
+
+test("standard local workspace uses root variants even when selected explicitly", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "cv-workspace-"));
+  for (const selection of [
+    { argv: ["--workspace", "cv-local/workspace"], env: {} },
+    { argv: [], env: { CV_WORKSPACE: "cv-local/workspace" } },
+  ]) {
+    assert.equal(resolveWorkspace({ root, ...selection }).variantsDir, path.join(root, "variants"));
+  }
+  fs.writeFileSync(path.join(root, "cv.local.yaml"), 'workspace: "cv-local/workspace"\n');
+  assert.equal(resolveWorkspace({ root, argv: [], env: {} }).variantsDir, path.join(root, "variants"));
+  assert.equal(resolveWorkspace({ root, argv: ["--workspace", "external"], env: {} }).variantsDir, path.join(root, "external/variants"));
+  assert.equal(resolveWorkspace({ root, argv: ["--workspace", DEFAULT_WORKSPACE], env: {} }).variantsDir, path.join(root, DEFAULT_WORKSPACE, "variants"));
+});

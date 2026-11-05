@@ -34,7 +34,10 @@ export function resolveWorkspace({ root, argv = process.argv.slice(2), env = pro
 
   const selected = cliWorkspace || env.CV_WORKSPACE || readLocalConfig(root) || DEFAULT_WORKSPACE;
   const workspaceDir = path.resolve(root, selected);
-  return { workspaceDir, args, source: cliWorkspace ? "cli" : env.CV_WORKSPACE ? "env" : fs.existsSync(path.join(root, "cv.local.yaml")) ? "local-config" : "default" };
+  const variantsDir = workspaceDir === path.join(root, "cv-local/workspace")
+    ? path.join(root, "variants")
+    : path.join(workspaceDir, "variants");
+  return { workspaceDir, variantsDir, args, source: cliWorkspace ? "cli" : env.CV_WORKSPACE ? "env" : fs.existsSync(path.join(root, "cv.local.yaml")) ? "local-config" : "default" };
 }
 
 export function workspacePath(workspaceDir, ...parts) {

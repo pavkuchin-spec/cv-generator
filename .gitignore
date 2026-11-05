@@ -4,6 +4,7 @@ templates/.render-*.html
 
 # Private candidate workspaces and the local selector never belong in Git.
 /cv-local/
+/variants/
 /cv.local.yaml
 
 # Generated artifacts in the tracked fictional examples.
