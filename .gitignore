@@ -3,7 +3,7 @@ templates/.render-*.html
 .DS_Store
 
 # Private candidate workspaces and the local selector never belong in Git.
-/.cv-local/
+/cv-local/
 /cv.local.yaml
 
 # Generated artifacts in the tracked fictional examples.

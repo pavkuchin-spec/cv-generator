@@ -5,7 +5,7 @@ description: Tailor an evidence-backed CV for a job description in the active wo
 
 # Tailor a CV
 
-Use the active workspace selected by `--workspace`, `CV_WORKSPACE`, `cv.local.yaml`, or the fictional example, in that order. Real candidate facts stay in `.cv-local/` or an external workspace. Save the job description as `variants/<slug>/job-post.md`; create a kebab-case slug. Keep the posting separate from design preferences.
+Use the active workspace selected by `--workspace`, `CV_WORKSPACE`, `cv.local.yaml`, or the fictional example, in that order. Real candidate facts stay in `cv-local/` or an external workspace. Save the job description as `variants/<slug>/job-post.md`; create a kebab-case slug. Keep the posting separate from design preferences.
 
 Read `data/profile.yaml` and relevant `data/evidence/*.md` before writing a claim. Employer names, held titles, dates, education, and contact facts must stay unchanged. Reword or select only supported claims; do not invent scope, seniority, technologies, metrics, or outcomes. An application headline can match a vacancy only when evidence supports its function and seniority. Record unsupported requirements, headline mismatches, and omissions in `rationale.md`.
 

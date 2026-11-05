@@ -27,7 +27,7 @@ node build.mjs exampleworks-senior-backend-engineer --workspace examples/softwar
 npm run init
 ```
 
-This copies the example to `.cv-local/workspace` and creates `cv.local.yaml`. Both paths are ignored by Git. Replace the fictional profile and evidence there with your own information, then run:
+This copies the example to `cv-local/workspace` and creates `cv.local.yaml`. Both paths are ignored by Git. Replace the fictional profile and evidence there with your own information, then run:
 
 ```sh
 npm run rebuild -- _base
@@ -109,7 +109,7 @@ npm run audit:public
 The public audit rejects private workspace roots, document binaries, home-directory paths, non-example emails, non-fictional phone numbers, and private-source references. For a migration audit, provide an ignored file containing one private identifier per line:
 
 ```sh
-npm run audit:public -- --denylist .cv-local/privacy-denylist.txt
+npm run audit:public -- --denylist cv-local/privacy-denylist.txt
 ```
 
 Generated outputs and private workspaces remain untracked. Before publishing changes, verify both commands pass from a clean clone.

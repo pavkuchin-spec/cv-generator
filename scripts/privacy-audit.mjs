@@ -11,7 +11,7 @@ const denylistPath = denylistIndex >= 0 ? args[denylistIndex + 1] : null;
 
 const candidates = execFileSync("git", ["ls-files", "--cached", "--others", "--exclude-standard", "-z"], { cwd: root })
   .toString("utf8").split("\0").filter(Boolean);
-const forbiddenPaths = [/^\.cv-local\//, /^cv\.local\.yaml$/, /^data\//, /^variants\//, /^inbox\//, /^archive\//];
+const forbiddenPaths = [/^cv-local\//, /^cv\.local\.yaml$/, /^data\//, /^variants\//, /^inbox\//, /^archive\//];
 const forbiddenBinary = /\.(pdf|docx?|pages)$/i;
 const checks = [
   { label: "absolute home path", regex: /\/(Users|home)\/[A-Za-z0-9._-]+\//g },

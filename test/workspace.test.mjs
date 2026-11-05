@@ -22,8 +22,8 @@ test("CLI overrides environment and strips workspace arguments", () => {
 
 test("local config overrides the default", () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "cv-workspace-"));
-  fs.writeFileSync(path.join(root, "cv.local.yaml"), 'workspace: ".cv-local/workspace"\n');
+  fs.writeFileSync(path.join(root, "cv.local.yaml"), 'workspace: "cv-local/workspace"\n');
   const result = resolveWorkspace({ root, argv: [], env: {} });
-  assert.equal(result.workspaceDir, path.join(root, ".cv-local/workspace"));
+  assert.equal(result.workspaceDir, path.join(root, "cv-local/workspace"));
   assert.equal(result.source, "local-config");
 });

@@ -12,7 +12,7 @@ context: |
   `npm run audit:public`. PDFs need visual review after template/layout changes.
 
   Hard constraints (see CLAUDE.md):
-  - Workspace boundary: real candidate data lives only in .cv-local/ or an external
+  - Workspace boundary: real candidate data lives only in cv-local/ or an external
     workspace; never in examples, tests, fixtures, comments, or docs.
   - Truthfulness: every tailored claim must trace to profile.yaml or data/evidence/.
   - Sanitization: no colleague names, ticket keys, internal URLs, repo names, or
