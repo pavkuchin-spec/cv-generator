@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Builds onepager.pdf, appendix.pdf, and cv-plain.txt for a variant.
-// Usage: node build.mjs <variant-slug> [--autofit]
+// Usage: node build.mjs <variant-slug> [--workspace <path>]
 
 import fs from "node:fs";
 import path from "node:path";
@@ -12,6 +12,8 @@ import { PDFDocument } from "pdf-lib";
 import { resolveWorkspace } from "./scripts/lib/workspace.mjs";
 import { readDesign, designCss, pageDimensions } from "./scripts/lib/design.mjs";
 import { assertEvidence, verifyPdf } from "./scripts/lib/ats-evidence.mjs";
+import { parseRebuildArgs } from "./scripts/lib/rebuild-options.mjs";
+import { mergeExpertise, selectCertifications } from "./scripts/lib/content-selection.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PX_PER_MM = 96 / 25.4; // CSS reference pixels
@@ -148,13 +150,13 @@ function renderRightColumn(content) {
     ${content.roles.map(renderRole).join("")}`;
 }
 
-function resolveContent(profile, variantYaml, headline) {
+function resolveContent(profile, variantYaml, headline, options) {
   return {
     name: profile.name, headline, contact: profile.contact,
     profileText: variantYaml.profile || profile.profile_default,
-    expertise: mergeExpertise(profile.expertise, variantYaml.expertise),
+    expertise: mergeExpertise(profile.expertise, variantYaml.expertise, options),
     roles: mergeRoles(profile.roles, variantYaml.roles),
-    education: profile.education, certifications: profile.certifications,
+    education: profile.education, certifications: selectCertifications(profile.certifications, variantYaml.certifications, options),
   };
 }
 
@@ -218,34 +220,6 @@ function resolveHeadline(profile, variantYaml) {
   return headline;
 }
 
-// Like mergeRoles: a patch, not a replacement. A variant may drop or reorder
-// expertise groups and items to narrow the CV to one clear role (and to satisfy
-// step 3 of CLAUDE.md's cut order), but every item must already exist verbatim
-// in that group in profile.yaml — so this surface can never invent a skill.
-function mergeExpertise(baseExpertise, override) {
-  if (!override) return baseExpertise;
-  const merged = {};
-  for (const [group, items] of Object.entries(override)) {
-    const baseItems = baseExpertise[group];
-    if (!baseItems) {
-      fail(`onepager.yaml expertise override references unknown group: "${group}"`);
-    }
-    if (!Array.isArray(items) || items.length === 0) {
-      fail(`onepager.yaml expertise override for "${group}" must be a non-empty list`);
-    }
-    for (const item of items) {
-      if (!baseItems.includes(item)) {
-        fail(
-          `onepager.yaml expertise override invents an item not in profile.yaml under "${group}": "${item}"\n` +
-            `  allowed: ${baseItems.map((i) => `"${i}"`).join(", ")}`
-        );
-      }
-    }
-    merged[group] = items;
-  }
-  return merged;
-}
-
 // Guide slides 4-6: bullets should open with an active completed action and say
 // what changed, not just what was done. Reported as warnings, never fatal —
 // "no result dimension" is sometimes the honest answer for an older role.
@@ -289,7 +263,7 @@ function lintBullets(roles) {
   }
 }
 
-async function buildOnepager(browser, content, design, outDir) {
+async function buildOnepager(browser, content, design, outDir, { skipReview = false } = {}) {
   const templateDir = path.join(__dirname, "templates");
   const template = fs.readFileSync(path.join(templateDir, "onepager.html"), "utf8");
   const { height: pageHeight } = pageDimensions(design);
@@ -318,7 +292,7 @@ async function buildOnepager(browser, content, design, outDir) {
       } else {
         console.log(`  onepager: fits at full scale (${heightMm.toFixed(1)}mm / ${pageHeight}mm)`);
       }
-      lintBullets(content.roles);
+      if (!skipReview) lintBullets(content.roles);
       return;
     }
     lastMeasuredOverflowMm = overflowMm;
@@ -490,7 +464,7 @@ function reportKeywordCoverage(variantDir, onepagerText, appendixMd) {
 
 async function main() {
   const { workspaceDir, variantsDir, args } = resolveWorkspace({ root: __dirname });
-  const variantSlug = args[0];
+  const { candidate: variantSlug, skipReview } = parseRebuildArgs(args);
   if (!variantSlug) fail("usage: node build.mjs <variant-slug> [--workspace <path>]");
 
   const variantDir = path.join(variantsDir, variantSlug);
@@ -506,13 +480,14 @@ async function main() {
   const design = readDesign(workspaceDir, variantDir);
 
   console.log(`Building variant "${variantSlug}"...`);
+  if (skipReview) console.log("  Human-only --skip-review: content inventory checks, bullet/keyword review and agent visual review skipped; one-page fit and ATS extraction remain required.");
   const headline = resolveHeadline(profile, variantYaml);
-  const content = resolveContent(profile, variantYaml, headline);
+  const content = resolveContent(profile, variantYaml, headline, { skipReview });
   const launchOptions = { headless: true };
   if (process.env.CV_CHROME_PATH) launchOptions.executablePath = process.env.CV_CHROME_PATH;
   const browser = await puppeteer.launch(launchOptions);
   try {
-    await buildOnepager(browser, content, design, outDir);
+    await buildOnepager(browser, content, design, outDir, { skipReview });
     const evidence = await verifyPdf(path.join(outDir, "onepager.pdf"), content, design.layout);
     fs.writeFileSync(path.join(outDir, "ats-evidence.json"), `${JSON.stringify(evidence, null, 2)}\n`);
     assertEvidence(evidence);
@@ -527,7 +502,7 @@ async function main() {
 
   const appendixPath = path.join(variantDir, "appendix.md");
   const appendixMd = fs.existsSync(appendixPath) ? fs.readFileSync(appendixPath, "utf8") : "";
-  reportKeywordCoverage(variantDir, plainText, appendixMd);
+  if (!skipReview) reportKeywordCoverage(variantDir, plainText, appendixMd);
 
   console.log(`\nDone. Output in ${path.relative(__dirname, outDir)}/`);
 }

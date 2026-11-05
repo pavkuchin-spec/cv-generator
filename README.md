@@ -80,6 +80,16 @@ Each successful build writes `out/ats-evidence.json` next to the one-page PDF. T
 
 Use `npm run rebuild -- <slug>` to rerender an existing variant and refresh its PDF report without editing tailored content.
 
+For a human editing application wording directly, the interactive terminal shortcut is:
+
+```sh
+npm run rebuild -- <slug> --skip-review
+```
+
+This skips expertise/certification inventory validation, bullet lint, keyword coverage reporting and the agent's post-render visual review. For example, a manually grouped expertise entry can render without first adding that exact string to the profile inventory. YAML and content structure, role matching, design validation, one-page fit and ATS PDF extraction still run. The flag is forwarded to the builder; ordinary rebuilds keep all checks.
+
+`--skip-review` is human-only. The CLI rejects recognized agent sessions and non-interactive runs. Agents must never use the flag, clear agent markers or allocate a terminal to bypass that guard. When a human runs it, agents should report the command result without starting a post-render visual review. This is a workflow guard, not human authentication.
+
 ## Optional job radar
 
 Radar behavior is configured entirely by `<workspace>/inbox/prefs.yaml`: title bands, geography, review-required seniority, scoring terms, timezone, caps, and watchlists.

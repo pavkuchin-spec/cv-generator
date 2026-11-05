@@ -4,6 +4,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { resolveWorkspace } from "./lib/workspace.mjs";
+import { parseRebuildArgs, REBUILD_USAGE } from "./lib/rebuild-options.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const { workspaceDir, variantsDir, args } = resolveWorkspace({ root });
@@ -42,9 +43,17 @@ function inferSlug(candidate) {
 }
 
 try {
-  const slug = inferSlug(args[0]);
+  if (args.includes("--help") || args.includes("-h")) {
+    console.log(REBUILD_USAGE);
+    console.log("--skip-review: human-only; skips content and agent visual review, keeps PDF fit and ATS checks.");
+    process.exit(0);
+  }
+  const { candidate, skipReview } = parseRebuildArgs(args);
+  const slug = inferSlug(candidate);
   console.log(`rebuild ${slug}`);
-  const result = spawnSync(process.execPath, [path.join(root, "build.mjs"), slug, "--workspace", workspaceDir], {
+  const buildArgs = [path.join(root, "build.mjs"), slug, "--workspace", workspaceDir];
+  if (skipReview) buildArgs.push("--skip-review");
+  const result = spawnSync(process.execPath, buildArgs, {
     cwd: root,
     stdio: "inherit",
   });
